@@ -2,9 +2,10 @@ package com.amaral.helpdesk.enums;
 
 public enum Profile {
 
-	ADMIN(0, "ROLE_ADMIN"),
-	CLIENT(1, "ROLE_CLIENT"),
-	TECHNICIAN(2, "TECHNICIAN");
+	USER(0, "ROLE_USER"),
+	ADMIN(1, "ROLE_ADMIN"),
+	CLIENT(2, "ROLE_CLIENT"),
+	TECHNICIAN(3, "ROLE_TECHNICIAN");
 	
 	private Integer code;
 	private String description;
