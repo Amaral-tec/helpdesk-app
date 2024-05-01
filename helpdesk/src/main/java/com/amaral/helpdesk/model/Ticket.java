@@ -5,18 +5,36 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import com.amaral.helpdesk.enums.Priority;
 import com.amaral.helpdesk.enums.Status;
 
+@Entity
+@Table(name = "tickets")
+@SequenceGenerator(name = "seq_ticket", sequenceName = "seq_ticket", initialValue = 1, allocationSize = 1)
 public class Ticket implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_ticket")
 	private Long id;
 	
+	@NotBlank
+	@Column(nullable = false)
 	private String title;
 	
+	@NotBlank
+	@Column(nullable = false)
 	private String description;
 	
 	@Column(name = "scheduled_date")
@@ -27,10 +45,15 @@ public class Ticket implements Serializable {
 	
 	private Status status;
 	
+	@Column(nullable = false)
 	private Priority priority;
 	
+	@ManyToOne
+	@JoinColumn(name = "client_id")
 	private Client client;
 	
+	@ManyToOne
+	@JoinColumn(name = "technician_id")
 	private Technician technician;
 
 	public Ticket() {

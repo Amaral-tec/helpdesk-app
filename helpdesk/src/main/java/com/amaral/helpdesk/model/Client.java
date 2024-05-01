@@ -1,21 +1,22 @@
 package com.amaral.helpdesk.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name = "clients")
 @PrimaryKeyJoinColumn(name = "id")
-public class Client extends User implements Serializable {
+public class Client extends User {
 
 	private static final long serialVersionUID = 1L;
 	
+	@OneToMany(mappedBy = "client")
 	private List<Ticket> tickets = new ArrayList<>();
 
 	public Client() {

@@ -8,12 +8,16 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
@@ -24,6 +28,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import com.amaral.helpdesk.enums.Profile;
 
 @Entity
+@Table(name = "users")
 @SequenceGenerator(name = "seq_user", sequenceName = "seq_user", initialValue = 1, allocationSize = 1)
 public abstract class User implements Serializable {
 	
@@ -38,7 +43,7 @@ public abstract class User implements Serializable {
     protected String name;
 	
 	@Email
-	@Column(nullable = false)
+	@Column(unique = true, nullable = false)
     protected String email;
 	
 	@NotBlank
@@ -46,18 +51,21 @@ public abstract class User implements Serializable {
 	private String phone;
 	
 	@CPF
-	@Column(nullable = false)
+	@Column(unique = true, nullable = false)
 	private String cpf;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date_birth")
 	private Date dateBirth;
 	
+	@NotBlank
+	@Column(nullable = false)
     protected String password;
     
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "profiles")
     protected Set<Integer> profiles = new HashSet<>();
     
-    @Temporal(TemporalType.DATE)
 	@Column(name = "created_at")
     protected LocalDate createdAt = LocalDate.now();
     
