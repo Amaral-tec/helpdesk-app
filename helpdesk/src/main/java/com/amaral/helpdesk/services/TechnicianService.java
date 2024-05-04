@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amaral.helpdesk.exceptions.ObjectNotFoundException;
 import com.amaral.helpdesk.model.Technician;
 import com.amaral.helpdesk.repositories.ITechnicianRepository;
 
@@ -17,6 +18,6 @@ public class TechnicianService {
 	
 	public Technician findById(Integer id) {
 		Optional<Technician> obj = technicianRepository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id));
 	}
 }
