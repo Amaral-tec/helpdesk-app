@@ -2,7 +2,6 @@ package com.amaral.helpdesk.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -16,10 +15,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -28,7 +26,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import com.amaral.helpdesk.enums.Profile;
 
 @Entity
-@Table(name = "users")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @SequenceGenerator(name = "seq_user", sequenceName = "seq_user", initialValue = 1, allocationSize = 1)
 public abstract class User implements Serializable {
 	
@@ -48,15 +46,11 @@ public abstract class User implements Serializable {
 	
 	@NotBlank
 	@Column(nullable = false)
-	private String phone;
+	protected String phone;
 	
 	@CPF
 	@Column(unique = true, nullable = false)
-	private String cpf;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "date_birth")
-	private Date dateBirth;
+	protected String cpf;
 	
 	@NotBlank
 	@Column(nullable = false)
@@ -70,21 +64,20 @@ public abstract class User implements Serializable {
     protected LocalDate createdAt = LocalDate.now();
     
     @Column(name = "is_deleted")
-	private Boolean isDeleted = Boolean.FALSE;
+    protected Boolean isDeleted = Boolean.FALSE;
 
 	public User() {
 		super();
 		addProfile(Profile.USER);
 	}
 
-	public User(Long id, String name, String email, String phone, String cpf, Date dateBirth, String password) {
+	public User(Long id, String name, String email, String phone, String cpf, String password) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
 		this.cpf = cpf;
-		this.dateBirth = dateBirth;
 		this.password = password;
 		addProfile(Profile.USER);
 	}
@@ -127,14 +120,6 @@ public abstract class User implements Serializable {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-	
-	public Date getDateBirth() {
-		return dateBirth;
-	}
-
-	public void setDateBirth(Date dateBirth) {
-		this.dateBirth = dateBirth;
 	}
 
 	public String getPassword() {

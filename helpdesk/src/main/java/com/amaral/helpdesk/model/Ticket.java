@@ -55,6 +55,9 @@ public class Ticket implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "technician_id")
 	private Technician technician;
+	
+	@Column(name = "is_deleted")
+	private Boolean isDeleted = Boolean.FALSE;
 
 	public Ticket() {
 		super();
@@ -142,6 +145,14 @@ public class Ticket implements Serializable {
 
 	public void setTechnician(Technician technician) {
 		this.technician = technician;
+	}
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	@Override
