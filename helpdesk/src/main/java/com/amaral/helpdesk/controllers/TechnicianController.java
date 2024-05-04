@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.amaral.helpdesk.model.Technician;
@@ -22,6 +24,15 @@ public class TechnicianController {
 	
 	@Autowired
 	private LogController<Technician> logController;
+	
+	@PostMapping(value = "**/create-technician")
+	public ResponseEntity<TechnicianDTO> create(@RequestBody TechnicianDTO objDTO) {
+		
+		Technician newObj = technicianService.create(objDTO);
+		logController.logEntity(newObj);
+		
+		return new ResponseEntity<>(objDTO, HttpStatus.OK);
+	}
 	
 	@GetMapping(value = "**/get-technician/{id}")
 	public ResponseEntity<TechnicianDTO> findById(@PathVariable Integer id) {
