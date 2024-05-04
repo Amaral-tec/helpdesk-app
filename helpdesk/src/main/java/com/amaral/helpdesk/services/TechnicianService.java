@@ -1,5 +1,6 @@
 package com.amaral.helpdesk.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,10 @@ public class TechnicianService {
 	public Technician findById(Integer id) {
 		Optional<Technician> obj = technicianRepository.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id));
+	}
+
+
+	public List<Technician> findAll() {
+		return technicianRepository.findAll();
 	}
 }

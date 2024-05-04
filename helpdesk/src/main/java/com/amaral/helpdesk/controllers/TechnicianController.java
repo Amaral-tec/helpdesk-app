@@ -1,5 +1,8 @@
 package com.amaral.helpdesk.controllers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,5 +30,15 @@ public class TechnicianController {
 		logController.logEntity(obj);
 		
 		return new ResponseEntity<>(new TechnicianDTO(obj), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "**/find-all-technician")
+	public ResponseEntity<List<TechnicianDTO>> findAll() {
+		
+		List<Technician> list = technicianService.findAll();
+		List<TechnicianDTO> listDTO = list.stream().map(obj -> new TechnicianDTO(obj)).collect(Collectors.toList());
+		logController.logEntityList(list);
+		
+		return new ResponseEntity<>(listDTO, HttpStatus.OK);
 	}
 }
