@@ -3,6 +3,8 @@ package com.amaral.helpdesk.controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,7 @@ public class TechnicianController {
 	private LogController<Technician> logController;
 	
 	@PostMapping(value = "**/create-technician")
-	public ResponseEntity<TechnicianDTO> create(@RequestBody TechnicianDTO objDTO) {
+	public ResponseEntity<TechnicianDTO> create(@Valid @RequestBody TechnicianDTO objDTO) {
 		
 		Technician newObj = technicianService.create(objDTO);
 		logController.logEntity(newObj);

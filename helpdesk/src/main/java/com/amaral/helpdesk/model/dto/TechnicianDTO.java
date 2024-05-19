@@ -6,6 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import com.amaral.helpdesk.enums.Profile;
 import com.amaral.helpdesk.model.Technician;
 
@@ -15,14 +18,19 @@ public class TechnicianDTO implements Serializable {
 
     protected Long id;
 	
+    @NotBlank
     protected String name;
 	
+    @Email
     protected String email;
 	
+    @NotBlank
     protected String phone;
 	
+    @NotBlank
     protected String cpf;
 	
+    @NotBlank
     protected String password;
     
     protected Set<Integer> profiles = new HashSet<>();
@@ -33,6 +41,7 @@ public class TechnicianDTO implements Serializable {
 
 	public TechnicianDTO() {
 		super();
+		addProfile(Profile.TECHNICIAN);
 	}
 
 	public TechnicianDTO(Technician obj) {
@@ -46,6 +55,7 @@ public class TechnicianDTO implements Serializable {
 		this.profiles = obj.getProfiles().stream().map(x -> x.getCode()).collect(Collectors.toSet());
 		this.createdAt = obj.getCreatedAt();
 		this.isDeleted = obj.getIsDeleted();
+		addProfile(Profile.TECHNICIAN);
 	}
 
 	public Long getId() {
