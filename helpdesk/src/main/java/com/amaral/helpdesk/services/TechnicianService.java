@@ -3,6 +3,8 @@ package com.amaral.helpdesk.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +19,16 @@ public class TechnicianService {
 	@Autowired
 	private ITechnicianRepository technicianRepository;
 	
+	public Technician update(Long id, @Valid TechnicianDTO objDTO) {
+
+		objDTO.setId(id);
+		Technician oldObj = findById(id);
+		oldObj = new Technician(objDTO);
+		return technicianRepository.save(oldObj);
+	}
 	
-	public Technician findById(Integer id) {
-		Optional<Technician> obj = technicianRepository.findById(id);
+	public Technician findById(Long id) {
+		Optional<Technician> obj = technicianRepository.findById(id.intValue());
 		return obj.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id));
 	}
 

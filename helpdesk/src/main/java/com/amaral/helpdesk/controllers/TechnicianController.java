@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,12 +38,21 @@ public class TechnicianController {
 	}
 	
 	@GetMapping(value = "**/get-technician/{id}")
-	public ResponseEntity<TechnicianDTO> findById(@PathVariable Integer id) {
+	public ResponseEntity<TechnicianDTO> findById(@PathVariable Long id) {
 		
 		Technician obj = technicianService.findById(id);
 		logController.logEntity(obj);
 		
 		return new ResponseEntity<>(new TechnicianDTO(obj), HttpStatus.OK);
+	}
+	
+	@PutMapping(value = "**/update-technician/{id}")
+	public ResponseEntity<TechnicianDTO> update(@PathVariable Long id, @Valid @RequestBody TechnicianDTO objDTO) {
+		
+		Technician obj = technicianService.update(id, objDTO);
+		logController.logEntity(obj);
+		
+		return new ResponseEntity<>(objDTO, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "**/find-all-technician")

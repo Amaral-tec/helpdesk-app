@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import com.amaral.helpdesk.enums.Profile;
 import com.amaral.helpdesk.model.Technician;
 
@@ -27,6 +29,7 @@ public class TechnicianDTO implements Serializable {
     @NotBlank
     protected String phone;
 	
+    @CPF
     @NotBlank
     protected String cpf;
 	
